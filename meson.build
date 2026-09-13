@@ -1,5 +1,5 @@
 project('noctalia', ['c', 'cpp'],
-  version: '5.0.1',
+  version: '5.1.0',
   default_options: [
     'cpp_std=c++23',
     'cpp_extensions=false',
@@ -547,6 +547,7 @@ _noctalia_sources = files(
   'src/render/core/thumbnail_service.cpp',
   'src/render/core/image_decoder.cpp',
   'src/render/core/image_encoder.cpp',
+  'src/render/core/image_orientation.cpp',
   'src/render/programs/glyph_program.cpp',
   'src/render/programs/image_program.cpp',
   'src/render/programs/linear_gradient_program.cpp',
@@ -1189,6 +1190,7 @@ if build_tests
     'ico_decoder',
     'icon_resolver',
     'image_file_loader_data_uri',
+    'image_orientation',
     'image_source_log',
     'inotify',
     'input_area',

@@ -12,6 +12,7 @@
 #include "notification/notification.h"
 #include "notification/notification_manager.h"
 #include "render/core/image_encoder.h"
+#include "render/core/image_file_loader.h"
 #include "render/render_context.h"
 #include "shell/panel/panel_manager.h"
 #include "time/time_format.h"
@@ -143,6 +144,21 @@ namespace {
 
   [[nodiscard]] bool needsScreenshotPath(const ScreenshotService::OutputOptions& options) {
     return options.saveToFile || (options.pipeToCommand && !options.pipeCommand.empty());
+  }
+
+  // Decoded file pixels stand in for a capture: straight RGBA, no cursor variant.
+  [[nodiscard]] std::expected<capture::ScreenshotImage, std::string> loadImageForAnnotation(const std::string& path) {
+    auto loaded = loadImageFile(path);
+    if (!loaded) {
+      return std::unexpected(loaded.error());
+    }
+    if (loaded->width <= 0 || loaded->height <= 0) {
+      return std::unexpected("image has no pixels");
+    }
+    return capture::ScreenshotImage{
+        .image = ScreencopyImage{.width = loaded->width, .height = loaded->height, .rgba = std::move(loaded->rgba)},
+        .cursorStatus = capture::CursorToggleStatus::NotCaptured,
+    };
   }
 
   [[nodiscard]] const WaylandOutput* findOutput(const WaylandConnection& wayland, wl_output* output) {
@@ -764,8 +780,8 @@ void ScreenshotService::registerIpc(IpcService& ipc, const ConfigService& config
   });
 
   // The live annotator draws over running apps, so it opens without screencopy;
-  // only its Freeze action needs capture support.
-  ipc.bind(noctalia::cli::msg::annotate, [this, &configService](const std::string& /*args*/) -> std::string {
+  // only its Freeze action needs capture support. With a path it edits that image instead.
+  ipc.bind(noctalia::cli::msg::annotate, [this, &ipc, &configService](const std::string& args) -> std::string {
     if (overlayBusy()) {
       return "error: a screenshot overlay is already active\n";
     }
@@ -773,7 +789,18 @@ void ScreenshotService::registerIpc(IpcService& ipc, const ConfigService& config
     if (renderContext == nullptr) {
       return "error: render context unavailable\n";
     }
-    beginAnnotation(*renderContext, outputOptionsFromConfig(configService.config()), false);
+    const auto options = outputOptionsFromConfig(configService.config());
+    const std::string path = StringUtils::trim(args);
+    if (path.empty()) {
+      beginAnnotation(*renderContext, options, false);
+      return "ok\n";
+    }
+    const std::optional<std::string_view> callerCwd =
+        ipc.callerCwd().has_value() ? std::optional<std::string_view>{*ipc.callerCwd()} : std::nullopt;
+    const std::string resolved = FileUtils::resolvePath(path, callerCwd).string();
+    if (const auto started = beginImageFileAnnotation(*renderContext, resolved, options); !started) {
+      return "error: " + started.error() + " (" + resolved + ")\n";
+    }
     return "ok\n";
   });
 }
@@ -1278,6 +1305,29 @@ void ScreenshotService::beginAnnotation(RenderContext& renderContext, const Outp
 
   m_annotationOverlay->setFrozenScreenshots({});
   m_annotationOverlay->begin();
+}
+
+std::expected<void, std::string> ScreenshotService::beginImageFileAnnotation(
+    RenderContext& renderContext, const std::string& path, const OutputOptions& options
+) {
+  if (preferredCaptureOutput() == nullptr) {
+    return std::unexpected("no usable output for the annotation editor");
+  }
+  auto image = loadImageForAnnotation(path);
+  if (!image) {
+    return std::unexpected(image.error());
+  }
+
+  m_regionRenderContext = &renderContext;
+  m_regionOutputOptions = options;
+  m_regionFullscreenPick = false;
+  m_frozenScreenshots.clear();
+
+  // Done writes a new screenshot file rather than overwriting the source image.
+  const std::optional<std::filesystem::path> destPath =
+      needsScreenshotPath(options) ? std::optional(makeScreenshotPath(options, "annotated")) : std::nullopt;
+  beginImageAnnotation(std::move(*image), options, destPath);
+  return {};
 }
 
 void ScreenshotService::beginImageAnnotation(

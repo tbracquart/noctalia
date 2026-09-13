@@ -5,6 +5,7 @@
 #include "capture/screenshot_region_overlay.h"
 
 #include <cstdint>
+#include <expected>
 #include <filesystem>
 #include <memory>
 #include <optional>
@@ -55,6 +56,10 @@ public:
   // freezeFirst selects the frozen annotator (screenshot-annotate); otherwise the overlay
   // starts transparent over the running desktop (annotate).
   void beginAnnotation(RenderContext& renderContext, const OutputOptions& options, bool freezeFirst);
+  // Opens the annotator on an image decoded from disk, with no screencopy involved.
+  // Returns the reason when the file cannot be decoded or no output can host the editor.
+  [[nodiscard]] std::expected<void, std::string>
+  beginImageFileAnnotation(RenderContext& renderContext, const std::string& path, const OutputOptions& options);
   [[nodiscard]] bool overlayBusy() const noexcept;
 
   void onOutputChange();

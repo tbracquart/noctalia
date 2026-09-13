@@ -82,6 +82,9 @@ namespace noctalia::cli {
   inline constexpr std::array<std::string_view, 3> kMsgThemeModeSetModeChoices{"dark", "light", "auto"};
   inline constexpr std::array<std::string_view, 2> kMsgWorkspaceSwitchDirectionChoices{"next", "prev"};
 
+  inline constexpr std::array kMsgAnnotatePositionals{
+      Positional{"path", "Image file to annotate instead of the live screen", {}, false, false, false},
+  };
   inline constexpr std::array kMsgBarAutoHideSetPositionals{
       Positional{"state", {}, kMsgBarAutoHideSetStateChoices, true, false, false},
       Positional{"bar-name", {}, {}, false, false, false},
@@ -255,10 +258,15 @@ namespace noctalia::cli {
 
   namespace msg {
     inline constexpr Command annotate{
-        "annotate", "Draw on the screen over running apps; press F or the Freeze button to capture the background",
-        {},         {},
-        {},         {},
-        {},         false
+        "annotate",
+        "Draw on the screen over running apps, or annotate an image file; press F or the Freeze button to capture the "
+        "background",
+        {},
+        {},
+        {},
+        kMsgAnnotatePositionals,
+        {},
+        false
     };
     inline constexpr Command barAutoHideSet{
         "bar-auto-hide-set", "Set auto-hide state for a bar", {}, {}, {}, kMsgBarAutoHideSetPositionals, {}, false

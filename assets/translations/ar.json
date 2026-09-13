@@ -27,6 +27,17 @@
     }
   },
   "bar": {
+    "annotate": {
+      "close": "إغلاق دون إرسال (Esc)",
+      "color-black": "أسود",
+      "color-blue": "أزرق",
+      "color-green": "أخضر",
+      "color-orange": "برتقالي",
+      "color-purple": "أرجواني",
+      "color-red": "أحمر",
+      "color-white": "أبيض",
+      "color-yellow": "أصفر"
+    },
     "screenshot": {
       "choose-display": "اختر الشاشة",
       "confirm-region": "{نسخ} للنسخ · {حفظ} للحفظ · أدخل أو مسافة للإعدادات الافتراضية · {إلغاء} للإلغاء · اسحب لإعادة التحديد",

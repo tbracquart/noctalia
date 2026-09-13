@@ -27,7 +27,47 @@
     }
   },
   "bar": {
+    "annotate": {
+      "close": "Fechar sem aplicar (Esc)",
+      "color-black": "Preto",
+      "color-blue": "Azul",
+      "color-green": "Verde",
+      "color-orange": "Laranja",
+      "color-purple": "Roxo",
+      "color-red": "Vermelho",
+      "color-white": "Branco",
+      "color-yellow": "Amarelo",
+      "copy": "Copiar a imagem anotada (Ctrl+C)",
+      "cursor": "Mostrar o ponteiro capturado com a tela (p)",
+      "done": "Aplicar as configurações da captura de tela (Enter)",
+      "fill-off": "Preenchimento da forma: desligado",
+      "fill-on": "Preenchimento da forma: ligado",
+      "freeze": "Congelar a tela sob a tinta (f)",
+      "move-toolbar": "Arraste para mover a barra de ferramentas",
+      "redo": "Refazer (Ctrl+Shift+Z)",
+      "save": "Salvar a imagem anotada (Ctrl+S)",
+      "size-advanced": "Ajuste fino de tamanho",
+      "size-decrease": "Mais fino ([)",
+      "size-increase": "Mais grosso (])",
+      "size-large": "Grande",
+      "size-medium": "Médio",
+      "size-small": "Pequeno",
+      "tool-arrow": "Seta (a) · segure Shift para ajustar o ângulo",
+      "tool-blur": "Borrar uma região (u)",
+      "tool-brush": "Pincel (b)",
+      "tool-circle": "Elipse (o) · segure Shift para um círculo",
+      "tool-crop": "Cortar a exportação (c)",
+      "tool-eraser": "Borracha (e)",
+      "tool-highlighter": "Marca-texto (h)",
+      "tool-line": "\"Linha (l) · segure Shift para ajustar o ângulo",
+      "tool-move": "Mover uma anotação (m)",
+      "tool-numbering": "Marcador numerado (n)",
+      "tool-rectangle": "Retângulo (s) · segure Shift para um quadrado",
+      "tool-text": "Texto (t)",
+      "undo": "Desfazer (Ctrl+Z)"
+    },
     "screenshot": {
+      "annotate-export-failed": "Falha ao construir a imagem anotada",
       "choose-display": "Escolha o monitor",
       "confirm-region": "{copy} para copiar · {save} para salvar · Enter ou Espaço para padrões · {cancel} para cancelar · Arraste para reselecionar",
       "fullscreen": "Tela cheia",
@@ -60,6 +100,7 @@
       "network": {
         "active": "Ativo",
         "band": "Banda",
+        "cellular": "Celular",
         "connected": "Conectado",
         "connecting": "Conectando",
         "download": "Download",
@@ -73,8 +114,10 @@
         "not-connected": "Não conectado",
         "off": "Desligado",
         "on": "Ligado",
+        "operator": "Operadora",
         "scanning": "Escaneando",
         "signal": "Sinal",
+        "technology": "Tecnologia",
         "upload": "Upload",
         "vpn": "VPN",
         "wan-ip": "IP Público",
@@ -271,6 +314,17 @@
     },
     "network": {
       "available": "Disponível",
+      "cellular": "Celular",
+      "cellular-connected": "Conectado",
+      "cellular-connecting": "Conectando...",
+      "cellular-connection": "Conexão do celular",
+      "cellular-enabling": "Ativando...",
+      "cellular-failed": "Falhou",
+      "cellular-locked": "SIM bloqueado",
+      "cellular-no-service": "Sem serviço",
+      "cellular-off": "Desligado",
+      "cellular-registered": "Registrado",
+      "cellular-searching": "Buscando...",
       "connect": "Conectar",
       "current-connection": "Conexão atual",
       "external-ip": "WAN {ip}",
@@ -3029,6 +3083,10 @@
           "description": "Apagar o histórico de uso por app em primeiro plano",
           "label": "Redefinir Dados de Tempo de Tela"
         },
+        "screenshot-annotate": {
+          "description": "Abrir o editor de anotações em cada captura de tela; Concluir aplica as configurações de salvar, área de transferência e pipe",
+          "label": "Anotar Antes de Entregar"
+        },
         "screenshot-confirm-region": {
           "description": "Depois de desenhar uma região, manter o overlay aberto até confirmar com Enter ou Espaço",
           "label": "Confirmar Região"
@@ -3263,6 +3321,10 @@
       "actions": {
         "command-placeholder": "Comando do shell",
         "commands": {
+          "annotate": {
+            "description": "Desenhar na tela sobre os aplicativos em execução; pressione F ou o botão Congelar para capturar o fundo",
+            "label": "Anotar tela"
+          },
           "bar-auto-hide-set": {
             "description": "Definir estado de auto-ocultar para uma barra",
             "label": "Definir auto-ocultar para a barra"
@@ -3570,6 +3632,10 @@
           "power-set": {
             "description": "Definir o perfil de energia UPower (ex.: desempenho, equilibrado, economia de energia)",
             "label": "Definir perfil de energia"
+          },
+          "screenshot-annotate": {
+            "description": "Congelar a tela e anotá-la, depois copiar ou salvar",
+            "label": "Anotar captura de tela"
           },
           "screenshot-fullscreen": {
             "description": "Capturar o monitor focado por padrão, pegar interativamente com pick ou todas saídas com Todos",

@@ -710,7 +710,9 @@ void HomeTab::doLayout(Renderer& renderer, float contentWidth, float bodyHeight)
     const float bottomRowGap = m_bottomRow != nullptr ? m_bottomRow->gap() : 0.0F;
     const bool stacked = m_shortcutPads.size() <= kHomeStackedShortcutMax;
     const std::size_t cols = stacked ? 1U : kHomeShortcutGridColumns;
-    const std::size_t rows = (m_shortcutPads.size() + cols - 1) / cols;
+    // Rows of height the bottom row reserves: a lone shortcut is one row, which would collapse the
+    // row (and the media/clock cards sized from it) to a single tile.
+    const std::size_t heightRows = std::max((m_shortcutPads.size() + cols - 1) / cols, kHomeStackedShortcutMax);
     const float padH = m_shortcutsGrid->paddingLeft() + m_shortcutsGrid->paddingRight();
     const float padV = m_shortcutsGrid->paddingTop() + m_shortcutsGrid->paddingBottom();
     const float colGap = m_shortcutsGrid->columnGap();
@@ -726,8 +728,9 @@ void HomeTab::doLayout(Renderer& renderer, float contentWidth, float bodyHeight)
     const float userCardReserve = homeAvatarSize(scale) + 2.0F * (Style::spaceSm + Style::spaceXs) * scale;
     const float rootGap = m_rootLayout->gap();
     const float availForGrid = std::max(1.0F, bodyHeight - userCardReserve - rootGap);
-    const float maxCellSide =
-        std::max(1.0F, (availForGrid - static_cast<float>(rows - 1) * rowGap - padV) / static_cast<float>(rows));
+    const float maxCellSide = std::max(
+        1.0F, (availForGrid - static_cast<float>(heightRows - 1) * rowGap - padV) / static_cast<float>(heightRows)
+    );
     const float maxGridWidth = static_cast<float>(cols) * (maxCellSide / kHomeShortcutSquareTrim)
         + static_cast<float>(cols - 1) * colGap
         + padH;
@@ -848,7 +851,8 @@ void HomeTab::doLayout(Renderer& renderer, float contentWidth, float bodyHeight)
     const float gridW = m_shortcutsGrid->width();
     const float innerGridW = std::max(1.0F, gridW - m_shortcutsGrid->paddingLeft() - m_shortcutsGrid->paddingRight());
     const std::size_t cols = std::max<std::size_t>(1, std::min(m_shortcutsGrid->columns(), m_shortcutPads.size()));
-    const std::size_t rows = (m_shortcutPads.size() + cols - 1) / cols;
+    // Height floor as in the pre-layout pass: one shortcut reserves the two-row stacked height.
+    const std::size_t heightRows = std::max((m_shortcutPads.size() + cols - 1) / cols, kHomeStackedShortcutMax);
     const float cellWidth = std::max(
         1.0F, (innerGridW - static_cast<float>(cols - 1) * m_shortcutsGrid->columnGap()) / static_cast<float>(cols)
     );
@@ -869,8 +873,8 @@ void HomeTab::doLayout(Renderer& renderer, float contentWidth, float bodyHeight)
     }
 
     const float gridH = std::round(
-        static_cast<float>(rows) * cellSide
-        + static_cast<float>(rows > 0 ? rows - 1 : 0) * m_shortcutsGrid->rowGap()
+        static_cast<float>(heightRows) * cellSide
+        + static_cast<float>(heightRows - 1) * m_shortcutsGrid->rowGap()
         + m_shortcutsGrid->paddingTop()
         + m_shortcutsGrid->paddingBottom()
     );

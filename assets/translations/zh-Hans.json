@@ -27,7 +27,47 @@
     }
   },
   "bar": {
+    "annotate": {
+      "close": "关闭而不发送（Esc）",
+      "color-black": "黑色",
+      "color-blue": "蓝色",
+      "color-green": "绿色",
+      "color-orange": "橙色",
+      "color-purple": "紫色",
+      "color-red": "红色",
+      "color-white": "白色",
+      "color-yellow": "黄色",
+      "copy": "复制已标注的图像（Ctrl+C）",
+      "cursor": "显示随屏幕捕获的指针（p）",
+      "done": "应用截图设置（Enter）",
+      "fill-off": "形状填充：关闭",
+      "fill-on": "形状填充：开启",
+      "freeze": "冻结墨迹下方的屏幕（f）",
+      "move-toolbar": "拖动以移动工具栏",
+      "redo": "重做（Ctrl+Shift+Z）",
+      "save": "保存已标注的图像（Ctrl+S）",
+      "size-advanced": "微调尺寸",
+      "size-decrease": "变细（[）",
+      "size-increase": "变粗（]）",
+      "size-large": "大",
+      "size-medium": "中",
+      "size-small": "小",
+      "tool-arrow": "箭头（a）·按住 Shift 键以调整角度",
+      "tool-blur": "模糊区域（u）",
+      "tool-brush": "画笔（b）",
+      "tool-circle": "椭圆（o）·按住 Shift 键绘制正圆",
+      "tool-crop": "裁剪导出图像（c）",
+      "tool-eraser": "橡皮擦（e）",
+      "tool-highlighter": "荧光笔（h）",
+      "tool-line": "直线（l）·按住 Shift 键以调整角度",
+      "tool-move": "移动标注（m）",
+      "tool-numbering": "编号标记（n）",
+      "tool-rectangle": "矩形（s）·按住 Shift 键绘制正方形",
+      "tool-text": "文本（t）",
+      "undo": "撤销（Ctrl+Z）"
+    },
     "screenshot": {
+      "annotate-export-failed": "无法生成已标注图像",
       "choose-display": "选择屏幕",
       "confirm-region": "{copy} 复制 · {save} 保存 · Enter 或 Space 默认操作 · {cancel} 取消 · 拖动重选",
       "fullscreen": "全屏",
@@ -60,6 +100,7 @@
       "network": {
         "active": "活动",
         "band": "频段",
+        "cellular": "蜂窝网络",
         "connected": "已连接",
         "connecting": "正在连接",
         "download": "下载",
@@ -73,8 +114,10 @@
         "not-connected": "未连接",
         "off": "关闭",
         "on": "开启",
+        "operator": "运营商",
         "scanning": "正在扫描",
         "signal": "信号",
+        "technology": "网络制式",
         "upload": "上传",
         "vpn": "VPN",
         "wan-ip": "WAN IP",
@@ -271,6 +314,17 @@
     },
     "network": {
       "available": "可用",
+      "cellular": "蜂窝网络",
+      "cellular-connected": "已连接",
+      "cellular-connecting": "正在连接…",
+      "cellular-connection": "蜂窝网络连接",
+      "cellular-enabling": "正在开启…",
+      "cellular-failed": "失败",
+      "cellular-locked": "SIM 卡已锁定",
+      "cellular-no-service": "无服务",
+      "cellular-off": "关闭",
+      "cellular-registered": "已注册",
+      "cellular-searching": "正在搜索…",
       "connect": "连接",
       "current-connection": "当前连接",
       "external-ip": "WAN {ip}",
@@ -1250,7 +1304,7 @@
         "power": "电源",
         "privacy": "隐私",
         "profile": "个人资料",
-        "providers": "提供者",
+        "providers": "搜索源",
         "screen-corners": "屏幕圆角",
         "screen-time": "屏幕时间",
         "screenshot": "截图",
@@ -2419,7 +2473,7 @@
           "label": "计算器前缀"
         },
         "launcher-prefix-character": {
-          "description": "用于触发所有提供者前缀的通用前缀字符（例如 /）",
+          "description": "用于触发所有搜索源前缀的通用前缀字符（例如 /）",
           "label": "通用前缀字符"
         },
         "launcher-prefix-emoji": {
@@ -3029,6 +3083,10 @@
           "description": "清除已保存的应用前台使用记录",
           "label": "重置屏幕时间数据"
         },
+        "screenshot-annotate": {
+          "description": "每次截图时打开标注编辑器；“应用截图设置”会应用保存、剪贴板和管道输出设置",
+          "label": "发送前标注"
+        },
         "screenshot-confirm-region": {
           "description": "绘制区域后，保持 Overlay 开启，直到按下 Enter 或 Space 键确认",
           "label": "确认区域"
@@ -3081,7 +3139,7 @@
         },
         "sync-greeter": {
           "button": "立即同步",
-          "description": "将当前外观和显示器布局同步到 Noctalia Greeter。除非系统策略允许当前用户免密码同步，否则需要管理员授权。",
+          "description": "将当前外观和屏幕布局同步到 Noctalia Greeter。除非系统策略允许当前用户免密码同步，否则需要管理员授权。",
           "label": "Noctalia Greeter"
         },
         "telemetry": {
@@ -3263,6 +3321,10 @@
       "actions": {
         "command-placeholder": "Shell 命令",
         "commands": {
+          "annotate": {
+            "description": "在运行的应用上方进行屏幕标注；按 F 键或点击冻结按钮以捕获背景",
+            "label": "标注屏幕"
+          },
           "bar-auto-hide-set": {
             "description": "设置状态栏的自动隐藏状态",
             "label": "设置状态栏自动隐藏"
@@ -3570,6 +3632,10 @@
           "power-set": {
             "description": "设置 UPower 电源配置（如 performance、balanced、power-saver）",
             "label": "设置电源配置"
+          },
+          "screenshot-annotate": {
+            "description": "冻结屏幕并进行标注，然后复制或保存",
+            "label": "标注截图"
           },
           "screenshot-fullscreen": {
             "description": "默认截取当前聚焦屏幕；使用 pick 交互选择，或使用 all 截取所有显示输出",
